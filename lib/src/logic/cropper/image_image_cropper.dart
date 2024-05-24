@@ -10,15 +10,15 @@ import 'package:crop_your_image/src/logic/cropper/image_cropper.dart';
 import 'package:crop_your_image/src/logic/format_detector/format.dart';
 import 'package:crop_your_image/src/logic/shape.dart';
 
-import 'package:image/image.dart';
+import 'package:image/image.dart' as image;
 
 /// an implementation of [ImageCropper] using image package
-class ImageImageCropper extends ImageCropper<Image> {
+class ImageImageCropper extends ImageCropper<image.Image> {
   const ImageImageCropper();
 
   @override
   FutureOr<Uint8List> call({
-    required Image original,
+    required image.Image original,
     required Offset topLeft,
     required Offset bottomRight,
     ImageFormat outputFormat = ImageFormat.jpeg,
@@ -57,13 +57,13 @@ class ImageImageCropper extends ImageCropper<Image> {
 /// process cropping image.
 /// this method is supposed to be called only via compute()
 Uint8List _doCrop(
-  Image original, {
+  image.Image original, {
   required Offset topLeft,
   required Size size,
 }) {
   return Uint8List.fromList(
-    encodePng(
-      copyCrop(
+    image.encodePng(
+      image.copyCrop(
         original,
         x: topLeft.dx.toInt(),
         y: topLeft.dy.toInt(),
@@ -77,17 +77,17 @@ Uint8List _doCrop(
 /// process cropping image with circle shape.
 /// this method is supposed to be called only via compute()
 Uint8List _doCropCircle(
-  Image original, {
+  image.Image original, {
   required Offset topLeft,
   required Size size,
 }) {
-  final center = Point(
+  final center = image.Point(
     topLeft.dx + size.width / 2,
     topLeft.dy + size.height / 2,
   );
   return Uint8List.fromList(
-    encodePng(
-      copyCropCircle(
+    image.encodePng(
+      image.copyCropCircle(
         original,
         centerX: center.xi,
         centerY: center.yi,
